@@ -1,33 +1,35 @@
-import { strict, strictEqual } from "assert";
-
 /*
-给定一个整数数组 A，如果它是有效的山脉数组就返回 true，否则返回 false。
+给定两个数组，编写一个函数来计算它们的交集。
 
-让我们回顾一下，如果 A 满足下述条件，那么它是一个山脉数组：
+示例 1：
 
-A.length >= 3
-在 0 < i < A.length - 1 条件下，存在 i 使得：
-A[0] < A[1] < ... A[i-1] < A[i]
-A[i] > A[i+1] > ... > A[A.length - 1]
+输入：nums1 = [1,2,2,1], nums2 = [2,2]
+输出：[2]
+示例 2：
+
+输入：nums1 = [4,9,5], nums2 = [9,4,9,8,4]
+输出：[9,4]
+ 
+说明：
+
+输出结果中的每个元素一定是唯一的。
+我们可以不考虑输出结果的顺序。
 
 来源：力扣（LeetCode）
-链接：https://leetcode-cn.com/problems/valid-mountain-array
+链接：https://leetcode-cn.com/problems/intersection-of-two-arrays
 著作权归领扣网络所有。商业转载请联系官方授权，非商业转载请注明出处。
 */
-function validMountainArray(A: number[]): boolean {
-  let upstairs = true;
-  if (A.length < 3) return false;
-  if (A[0] >= A[1]) return false;
-  for (let i = 1; i < A.length; i++) {
-    if (A[i] === A[i - 1]) return false;
-    if (!upstairs && A[i] - A[i - 1] > 0) return false;
-    if (upstairs && A[i] - A[i - 1] < 0) upstairs = false;
-  }
-  if (upstairs) return false;
-  return true;
-}
 
-strictEqual(validMountainArray([2, 1]), false);
-strictEqual(validMountainArray([3, 5, 5]), false);
-strictEqual(validMountainArray([0, 3, 2, 1]), true);
-strictEqual(validMountainArray([0, 2, 3, 3, 5, 2, 1, 0]), false);
+function intersection(nums1: number[], nums2: number[]): number[] {
+  const nums = [...new Set(nums1)]
+  const result = []
+  for (let i = 0; i < nums.length; i++) {
+    for (let j = 0; j < nums2.length; j++) {
+      if (nums2[j] === nums[i]) {
+        result.push(nums[i])
+        break
+      }
+    }
+  }
+  return result
+}
